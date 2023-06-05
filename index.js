@@ -2,7 +2,7 @@ const express = require('express');
 const csv = require('csv-parser');
 const fs = require('fs');
 const path = require('path');
-const PORT = process.env.PORT || 3001;
+// const PORT = process.env.PORT || 3001;
 
 const app = express();
 app.use(express.json());
@@ -73,6 +73,7 @@ app.post('/calculate', (req, res) => {
   });
 });
 
+const PORT = 7000;
 app.listen(PORT, () => {
   console.log(`Container 2 is running on port ${PORT}`);
 });
