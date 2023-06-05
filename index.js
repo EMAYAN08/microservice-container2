@@ -3,8 +3,6 @@ const csv = require('csv-parser');
 const fs = require('fs');
 const path = require('path');
 const PORT = process.env.PORT || 3001;
-//const FILE_PATH = '/app/'; // Path to the stored file in the persistent volume
-
 
 const app = express();
 app.use(express.json());
@@ -13,12 +11,12 @@ app.use(express.json());
 app.post('/calculate', (req, res) => {
   const { file, product } = req.body;
 
-  if (!file) {
+  if (!file || !product) {
     return res.status(400).json({ file: null, error: 'Invalid JSON input.' });
   }
 
-  // Get the absolute path of the file
-  const filePath = path.join("/app", file);
+  // Create the absolute path of the file
+  const filePath = path.join('/Emayan_PV_dir', file); // Replace "xxxx" with your first name
 
   // Check if the file exists
   fs.access(filePath, fs.constants.F_OK, (err) => {
