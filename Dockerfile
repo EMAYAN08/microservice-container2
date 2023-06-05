@@ -1,13 +1,13 @@
 FROM node:alpine
 
-RUN mkdir -p /usr/src/app
+RUN mkdir -p /usr/src/Emayan_PV_dir
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/Emayan_PV_dir
 
-COPY package.json /usr/src/app/
+COPY package.json /usr/src/Emayan_PV_dir/
 
 RUN npm install
 
-COPY . /usr/src/app
+COPY . /usr/src/Emayan_PV_dir
 
 CMD node index.js
