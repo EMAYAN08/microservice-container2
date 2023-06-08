@@ -1,6 +1,15 @@
 steps:
   # Build Container 2 image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/k8-assignment-app/container2/cnt2:3259b660e390d423889fc7b27e4d3947888fc9d0', './']
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/k8-assignment-app/container2/cnt2', './']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/k8-assignment-app/container2/cnt2:3259b660e390d423889fc7b27e4d3947888fc9d0']
+    args: ['push', 'us-central1-docker.pkg.dev/k8-assignment-app/container2/cnt2']
+  
+  # Deploy Container 1 to GKE
+  - name: 'gcr.io/cloud-builders/gke-deploy'
+    args:
+      - run
+      - --filename=./deployment.yaml
+      - --image=us-central1-docker.pkg.dev/k8-assignment-app/container2/cnt2
+      - --location=us-central1-a
+      - --cluster=emayan-assignment-cluster
