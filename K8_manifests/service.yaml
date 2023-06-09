@@ -5,7 +5,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: container1
+    app: my-app
   ports:
     - protocol: TCP
       port: 80
@@ -17,7 +17,7 @@ metadata:
   name: container2-service
 spec:
   selector:
-    app: container1
+    app: my-app 
   ports:
     - protocol: TCP
       port: 7000
