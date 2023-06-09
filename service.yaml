@@ -17,7 +17,7 @@ metadata:
   name: container2-service
 spec:
   selector:
-    app: container2
+    app: container1
   ports:
     - protocol: TCP
       port: 7000

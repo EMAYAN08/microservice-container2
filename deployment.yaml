@@ -31,19 +31,19 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: container2
+  name: container1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: container2
+      app: container1
   template:
     metadata:
       labels:
-        app: container2
+        app: container1
     spec:
       containers:
-        - name: container2
+        - name: container1
           image: us-central1-docker.pkg.dev/k8-assignment-app/container2/cnt2
           ports:
             - containerPort: 7000
