@@ -7,6 +7,7 @@ const app = express();
 app.use(express.json());
 
 // Endpoint to handle calculate requests
+// Update the /calculate endpoint in container2/index.js
 app.post('/calculate', (req, res) => {
   const { file, product } = req.body;
 
@@ -14,34 +15,30 @@ app.post('/calculate', (req, res) => {
     return res.status(400).json({ file: null, error: 'Invalid JSON input.' });
   }
 
-  // Get the absolute path of the file
   const filePath = path.join('/Emayan_PV_dir', file);
 
-  // Check if the file exists
   if (!fs.existsSync(filePath)) {
     return res.status(404).json({ file, error: 'File not found.' });
   }
 
-  let headerFound = false; // Variable to track if the header is found
-  let fileError = false; // Variable to track if any error is found
-  const rows = []; // Array to store the rows
+  let headerFound = false;
+  let fileError = false;
+  const rows = [];
 
   fs.createReadStream(filePath)
     .pipe(csv())
+    .on('headers', (headers) => {
+      if (!headers.includes('product') || !headers.includes('amount')) {
+        fileError = true;
+      }
+      headerFound = true;
+    })
     .on('data', (row) => {
-      if (!headerFound) {
-        // Check if the header is present
-        if (!row.product || !row.amount) {
-          headerFound = true; // Set headerFound to true to prevent sending multiple responses
-          fileError = true;
-        }
-        headerFound = true;
-      } else {
-        // Check if any row is missing a comma
+      if (headerFound) {
         if (!row.product || !row.amount || row.product.includes(',') || row.amount.includes(',')) {
           fileError = true;
         } else {
-          rows.push(row); // Add the row to the rows array
+          rows.push(row);
         }
       }
     })
@@ -60,6 +57,7 @@ app.post('/calculate', (req, res) => {
       return res.status(200).json({ file, error: 'Input file not in CSV format.' });
     });
 });
+
 
 
 const PORT = 7000;
