@@ -15,7 +15,7 @@ app.post('/calculate', (req, res) => {
   }
 
   // Get the absolute path of the file
-  const filePath = path.join("/Emayan_PV_dir",file);
+  const filePath = path.join('/Emayan_PV_dir', file);
 
   // Check if the file exists
   if (!fs.existsSync(filePath)) {
@@ -24,6 +24,7 @@ app.post('/calculate', (req, res) => {
 
   let headerFound = false; // Variable to track if the header is found
   let fileError = false; // Variable to track if any error is found
+  const rows = []; // Array to store the rows
 
   fs.createReadStream(filePath)
     .pipe(csv())
@@ -39,36 +40,27 @@ app.post('/calculate', (req, res) => {
         // Check if any row is missing a comma
         if (!row.product || !row.amount || row.product.includes(',') || row.amount.includes(',')) {
           fileError = true;
+        } else {
+          rows.push(row); // Add the row to the rows array
         }
       }
     })
     .on('end', () => {
       if (!headerFound || fileError) {
-        return res
-          .status(200)
-          .json({ file, error: 'Input file not in CSV format.' });
+        return res.status(200).json({ file, error: 'Input file not in CSV format.' });
       }
 
-      const rows = [];
-      fs.createReadStream(filePath)
-        .pipe(csv())
-        .on('data', (row) => {
-          rows.push(row);
-        })
-        .on('end', () => {
-          const sum = rows
-            .filter((row) => row.product === product)
-            .reduce((total, row) => total + parseInt(row.amount), 0);
+      const sum = rows
+        .filter((row) => row.product === product)
+        .reduce((total, row) => total + parseInt(row.amount), 0);
 
-          return res.json({ file, sum });
-        })
-        .on('error', () => {
-          return res
-            .status(200)
-            .json({ file, error: 'Input file not in CSV format.' });
-        });
+      return res.json({ file, sum });
+    })
+    .on('error', () => {
+      return res.status(200).json({ file, error: 'Input file not in CSV format.' });
     });
 });
+
 
 const PORT = 7000;
 app.listen(PORT, () => {
