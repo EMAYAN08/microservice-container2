@@ -5,7 +5,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/k8-assignment-app/container2/cnt2']
   
-  # Deploy Container 1 to GKE
+  # Deploy Container 2 to GKE
   - name: 'gcr.io/cloud-builders/gke-deploy'
     args:
       - run

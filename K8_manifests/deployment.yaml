@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-deployment
+  name: k8-deployment
   labels:
-    app: my-app
+    app: k8-container-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: my-app
+      app: k8-container-app
   template:
     metadata:
       labels:
-        app: my-app
+        app: k8-container-app
     spec:
       containers:
         - name: container1
@@ -38,4 +38,4 @@ spec:
       volumes:
         - name: shared-volume
           persistentVolumeClaim:
-            claimName: my-pvc
+            claimName: pvc-for-k8-app

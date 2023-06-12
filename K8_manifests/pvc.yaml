@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: my-pvc
+  name: pvc-for-k8-app
 spec:
   accessModes:
     - ReadWriteOnce
