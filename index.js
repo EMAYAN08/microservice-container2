@@ -58,7 +58,7 @@ app.post('/calculate', (req, res) => {
         .filter((row) => row.product === product)
         .reduce((total, row) => total + parseInt(row.amount), 0);
 
-      return res.json({ file, sum });
+      return res.json({ file, sum: sum.toString() });
     });
 });
 
