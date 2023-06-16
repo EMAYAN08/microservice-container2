@@ -19,9 +19,6 @@ spec:
           image: us-central1-docker.pkg.dev/k8-assignment-app/container1/cnt1
           ports:
             - containerPort: 6000
-          # env:
-          #   - name: GOOGLE_APPLICATION_CREDENTIALS
-          #     value: /var/secrets/google/key.json
           volumeMounts:
             - name: shared-volume
               mountPath: /Emayan_PV_dir
@@ -29,9 +26,6 @@ spec:
           image: us-central1-docker.pkg.dev/k8-assignment-app/container2/cnt2
           ports:
             - containerPort: 7000
-          # env:
-          #   - name: GOOGLE_APPLICATION_CREDENTIALS
-          #     value: /var/secrets/google/key.json
           volumeMounts:
             - name: shared-volume
               mountPath: /Emayan_PV_dir
